@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
 from shared.models import User, Site, Audit, Issue
@@ -59,17 +60,50 @@ def _latest_audit(db: Session, site_id: int) -> Audit | None:
 
 
 def list_sites(db: Session, user: User) -> list[Site]:
-    """Сайты пользователя с прикреплённым последним аудитом (для дашборда)."""
+    """Сайты пользователя с прикреплённым последним аудитом (для дашборда).
+
+    Последние аудиты тянутся одним батч-запросом, без N+1 на каждый сайт.
+    """
     sites = (
         db.query(Site)
         .filter(Site.user_id == user.id)
         .order_by(Site.created_at.desc())
         .all()
     )
+    if not sites:
+        return sites
+
+    site_ids = [s.id for s in sites]
+    latest_ids = [
+        row[0]
+        for row in db.query(func.max(Audit.id))
+        .filter(Audit.site_id.in_(site_ids))
+        .group_by(Audit.site_id)
+        .all()
+    ]
+    by_site = {a.site_id: a for a in db.query(Audit).filter(Audit.id.in_(latest_ids)).all()}
     for site in sites:
-        # транзиентный атрибут, читается pydantic-схемой SiteOut
-        site.latest_audit = _latest_audit(db, site.id)
+        site.latest_audit = by_site.get(site.id)
     return sites
+
+
+def get_site_detail(db: Session, site_id: int, user: User) -> Site | None:
+    """Один сайт с прикреплённым последним аудитом."""
+    site = get_site(db, site_id, user)
+    if site is None:
+        return None
+    site.latest_audit = _latest_audit(db, site.id)
+    return site
+
+
+def delete_site(db: Session, site_id: int, user: User) -> bool:
+    """Удаляет сайт пользователя со всеми его аудитами. False если сайта нет."""
+    site = get_site(db, site_id, user)
+    if site is None:
+        return False
+    db.delete(site)
+    db.commit()
+    return True
 
 
 # Аудиты
@@ -93,8 +127,10 @@ def get_audit(db: Session, audit_id: int, user: User) -> Audit | None:
     )
 
 
-def list_site_audits(db: Session, site_id: int, user: User) -> list[Audit] | None:
-    """История аудитов сайта. None если сайт не принадлежит пользователю."""
+def list_site_audits(
+    db: Session, site_id: int, user: User, limit: int = 20, offset: int = 0
+) -> list[Audit] | None:
+    """История аудитов сайта с пагинацией. None если сайт не принадлежит пользователю."""
     site = get_site(db, site_id, user)
     if site is None:
         return None
@@ -102,5 +138,17 @@ def list_site_audits(db: Session, site_id: int, user: User) -> list[Audit] | Non
         db.query(Audit)
         .filter(Audit.site_id == site_id)
         .order_by(Audit.created_at.desc())
+        .limit(limit)
+        .offset(offset)
         .all()
     )
+
+
+def delete_audit(db: Session, audit_id: int, user: User) -> bool:
+    """Удаляет аудит пользователя. False если не найден или чужой."""
+    audit = get_audit(db, audit_id, user)
+    if audit is None:
+        return False
+    db.delete(audit)
+    db.commit()
+    return True

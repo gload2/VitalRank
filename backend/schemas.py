@@ -94,6 +94,23 @@ class AuditReport(AuditOut):
     issues: List[IssueOut] = []
 
 
+class CategoryCompare(BaseModel):
+    category: str
+    a_count: int
+    b_count: int
+
+
+class CompareOut(BaseModel):
+    a: AuditOut
+    b: AuditOut
+    a_url: str
+    b_url: str
+    google_diff: int
+    yandex_diff: int
+    health_diff: int
+    categories: List[CategoryCompare]
+
+
 # Sites
 
 class SiteOut(BaseModel):
