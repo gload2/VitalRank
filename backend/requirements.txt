@@ -14,6 +14,10 @@ email-validator==2.3.0
 celery==5.4.0
 redis==5.2.1
 
+# генерация PDF-отчётов
+reportlab==4.2.5
+
 # тесты
 pytest==8.3.3
 pytest-asyncio==0.24.0
+httpx==0.27.2
