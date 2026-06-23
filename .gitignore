@@ -6,6 +6,12 @@
 # локальные заметки (не для репозитория)
 РЕШЕНИЯ_ПО_АРХИТЕКТУРЕ.md
 
+# воркер ведётся в отдельной зоне (feature/seo-analyzers), сюда не коммитим
+worker/
+
+# локальный оверрайд docker (воркер + dev-настройки)
+docker-compose.override.yml
+
 # python
 __pycache__/
 *.py[cod]
