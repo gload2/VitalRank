@@ -1,0 +1,33 @@
+# секреты и окружение
+.env
+.env.local
+*.env
+
+# локальные заметки (не для репозитория)
+РЕШЕНИЯ_ПО_АРХИТЕКТУРЕ.md
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# базы данных (локальные)
+*.db
+*.sqlite
+*.sqlite3
+
+# node / frontend (на будущее)
+node_modules/
+dist/
+build/
+
+# IDE / система
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
