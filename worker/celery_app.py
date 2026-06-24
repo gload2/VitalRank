@@ -11,3 +11,5 @@ app = Celery("vitalrank", broker=broker_url, backend=broker_url)
 app.conf.task_serializer = "json"
 app.conf.result_serializer = "json"
 app.conf.accept_content = ["json"]
+
+import worker.tasks.audit
