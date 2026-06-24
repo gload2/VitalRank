@@ -17,10 +17,17 @@ def check_title(soup):
     return {"name": "title", "ok": True, "value": title.get_text(strip=True)}
 
 
+def check_description(soup):
+    tag = soup.find("meta", attrs={"name": "description"})
+    if tag is None or not tag.get("content", "").strip():
+        return {"name": "description", "ok": False, "message": "Meta description отсутствует"}
+    return {"name": "description", "ok": True, "value": tag["content"].strip()}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
-    checks = [check_title(soup)]
+    checks = [check_title(soup), check_description(soup)]
     passed = sum(1 for c in checks if c["ok"])
     return {
         "url": url,
