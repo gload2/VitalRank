@@ -24,10 +24,19 @@ def check_description(soup):
     return {"name": "description", "ok": True, "value": tag["content"].strip()}
 
 
+def check_h1(soup):
+    headings = soup.find_all("h1")
+    if len(headings) == 0:
+        return {"name": "h1", "ok": False, "message": "Заголовок h1 не найден"}
+    if len(headings) > 1:
+        return {"name": "h1", "ok": False, "message": f"Найдено несколько h1: {len(headings)}"}
+    return {"name": "h1", "ok": True, "value": headings[0].get_text(strip=True)}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
-    checks = [check_title(soup), check_description(soup)]
+    checks = [check_title(soup), check_description(soup), check_h1(soup)]
     passed = sum(1 for c in checks if c["ok"])
     return {
         "url": url,
