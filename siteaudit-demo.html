@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO-аудит · Лендинг</title>
+  <!-- Font Awesome (иконки) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #f8faff;
+      color: #1a1f36;
+      padding: 20px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* карточки, секции */
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 24px 28px;
+      box-shadow: 0 8px 24px rgba(0, 20, 50, 0.04);
+      border: 1px solid #edf2f7;
+      transition: all 0.1s ease;
+    }
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px 24px;
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.5px;
+      color: #0b1b3a;
+    }
+    .logo i {
+      color: #3b7cff;
+      margin-right: 6px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-weight: 500;
+      color: #2c3e5c;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .nav-links a:hover {
+      color: #3b7cff;
+    }
+
+    .btn {
+      background: #eef3fa;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: default;
+      color: #1a2b4a;
+      transition: 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: #1a2b4a;
+      color: white;
+    }
+    .btn-primary i {
+      color: #8bb3ff;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #d0dae8;
+    }
+    .btn-success {
+      background: #e4f3e6;
+      color: #1c6f3c;
+    }
+
+    .badge {
+      background: #eef3fa;
+      border-radius: 40px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .health-score {
+      font-weight: 700;
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+    .health-label {
+      color: #5d6f8a;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .stat-box {
+      background: #f6f9fe;
+      border-radius: 20px;
+      padding: 16px 20px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e5ecf5;
+      margin: 20px 0;
+    }
+
+    /* проблемы */
+    .issue-item {
+      background: #fafcff;
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      border-left: 4px solid #f5a623;
+    }
+    .issue-item.critical {
+      border-left-color: #e55353;
+    }
+    .issue-tag {
+      background: #eef3fa;
+      border-radius: 30px;
+      padding: 2px 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .site-row {
+      background: #fafcff;
+      border-radius: 20px;
+      padding: 14px 18px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-block {
+      background: #0b1b2f;
+      color: #d6e3ff;
+      padding: 16px 20px;
+      border-radius: 18px;
+      font-family: 'Menlo', monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+    }
+
+    /* адаптив */
+    @media (max-width: 800px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .flex-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .tab-link {
+      font-weight: 500;
+      cursor: default;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-link.active {
+      border-bottom-color: #3b7cff;
+      color: #0b1b3a;
+    }
+
+    /* демо-переключение страниц */
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======== НАВИГАЦИЯ ======== -->
+<header class="flex-between" style="margin-bottom: 28px;">
+  <div class="logo"><i class="fas fa-arrow-trend-up"></i> SiteAudit</div>
+  <div class="nav-links">
+    <a href="#" onclick="showPage('landing')">Цена</a>
+    <a href="#" onclick="showPage('landing')">Возможности</a>
+    <a href="#" onclick="showPage('landing')">Документация</a>
+  </div>
+  <div>
+    <span class="btn btn-outline" style="margin-right: 10px;"><i class="fas fa-sign-in-alt"></i> Вход</span>
+    <span class="btn btn-primary"><i class="fas fa-user-plus"></i> Регистрация</span>
+  </div>
+</header>
+
+<!-- ======== СТРАНИЦА 01 — ЛЕНДИНГ ======== -->
+<div id="page-landing" class="page active">
+  <div class="card" style="padding: 40px 32px;">
+    <div class="grid-2" style="align-items: center;">
+      <div>
+        <div style="font-size: 2.4rem; font-weight: 700; line-height: 1.2;">Осмотр. Диагноз. Рост.</div>
+        <div style="color: #3f5a7a; font-size: 1.2rem; margin: 12px 0 24px;">← слоган сюда</div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <span class="btn btn-primary" style="padding: 14px 32px;"><i class="fas fa-search"></i> Проверить сайт</span>
+          <span class="btn btn-outline" style="padding: 14px 32px;"><i class="fas fa-file-alt"></i> пример отчёта</span>
+        </div>
+      </div>
+      <div style="background: #eaf0fe; border-radius: 40px; padding: 30px; text-align: center; color: #25407a;">
+        <i class="fas fa-chart-line" style="font-size: 4rem; opacity: 0.5;"></i>
+        <div style="font-weight: 600; margin-top: 10px;">Health 76 · Google 78 · Яндекс 64</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 28px; display: flex; justify-content: center; gap: 12px;">
+    <span class="btn" onclick="showPage('dashboard')"><i class="fas fa-columns"></i> Дашборд (02)</span>
+    <span class="btn" onclick="showPage('results')"><i class="fas fa-list-ul"></i> Результаты (03)</span>
+    <span class="btn" onclick="showPage('details')"><i class="fas fa-code"></i> Детали (04)</span>
+  </div>
+  <p style="text-align: center; margin-top: 20px; color: #6b7f9e; font-size: 0.9rem;">кликни, чтобы переключить страницу (сырая версия)</p>
+</div>
+
+<!-- ======== СТРАНИЦА 02 — ДАШБОРД ======== -->
+<div id="page-dashboard" class="page">
+  <div class="flex-between" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 24px; align-items: center;">
+      <span class="tab-link active">Обзор</span>
+      <span class="tab-link">История</span>
+      <span class="tab-link">Конкуренты</span>
+      <span class="tab-link">Настройки</span>
+    </div>
+    <div><i class="fas fa-user-circle" style="font-size: 2rem; color: #1a2b4a;"></i> <span style="font-weight: 500;">Пользователь</span></div>
+  </div>
+
+  <!-- карточки статистики -->
+  <div class="grid-3" style="margin-bottom: 28px;">
+    <div class="stat-box"><span class="health-label">Сайтов</span> <div style="font-size: 2rem; font-weight: 700;">4</div></div>
+    <div class="stat-box"><span class="health-label">Проверок</span> <div style="font-size: 2rem; font-weight: 700;">23</div></div>
+    <div class="stat-box"><span class="health-label">Критических</span> <div style="font-size: 2rem; font-weight: 700; color: #e55353;">7</div></div>
+    <div class="stat-box"><span class="health-label">Ср. Health</span> <div style="font-size: 2rem; font-weight: 700;">72</div></div>
+  </div>
+
+  <!-- список сайтов -->
+  <div class="card" style="margin-bottom: 24px;">
+    <div style="font-weight: 600; margin-bottom: 14px;">Список сайтов (клик → экран 03)</div>
+    <div class="site-row" onclick="showPage('results')" style="cursor: pointer;">
+      <span><i class="fas fa-globe" style="color: #3b7cff;"></i> example.ru</span>
+      <span class="badge" style="background: #e4f3e6;">76</span>
+    </div>
+    <div class="site-row" onclick="showPage('results')" style="cursor: pointer;">
+      <span><i class="fas fa-globe" style="color: #3b7cff;"></i> myshop.store</span>
+      <span class="badge" style="background: #fff3d6;">60</span>
+    </div>
+    <div class="site-row" onclick="showPage('results')" style="cursor: pointer;">
+      <span><i class="fas fa-globe" style="color: #3b7cff;"></i> blog.company.com</span>
+      <span class="badge" style="background: #e4f3e6;">91</span>
+    </div>
+  </div>
+
+  <!-- индикаторы (макет) -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="flex-between"><span><strong>Индикаторы</strong></span> <span class="badge">3 крит.</span></div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px;">
+        <span class="badge" style="background: #d4e2ff;">76</span>
+        <span class="badge" style="background: #d4e2ff;">60</span>
+        <span class="badge" style="background: #d4e2ff;">91</span>
+        <span class="badge" style="background: #d4e2ff;">65</span>
+        <span class="badge" style="background: #d4e2ff;">54</span>
+        <span class="badge" style="background: #d4e2ff;">88</span>
+        <span class="badge" style="background: #d4e2ff;">71</span>
+      </div>
+      <div style="margin-top: 12px;"><span class="btn">открыть</span> <span class="btn">8 важных</span></div>
+    </div>
+    <div class="card">
+      <div><span class="badge" style="background: #e4f3e6;">Здоров</span> <span class="btn">открыть</span></div>
+      <div style="margin-top: 8px;"><span class="badge" style="background: #fff3d6;">3 дозор</span> <span class="btn">открыть</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== СТРАНИЦА 03 — РЕЗУЛЬТАТЫ АУДИТА ======== -->
+<div id="page-results" class="page">
+  <div class="flex-between" style="margin-bottom: 16px;">
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <span class="logo" style="font-size: 1.4rem;"><i class="fas fa-arrow-trend-up"></i> SiteAudit</span>
+      <span class="tab-link">Обзор</span>
+      <span class="tab-link">Мои сайты</span>
+      <span class="tab-link">История</span>
+    </div>
+    <span><i class="fas fa-user"></i> example.ru</span>
+  </div>
+
+  <div class="card" style="margin-bottom: 24px;">
+    <div class="flex-between">
+      <span style="font-weight: 700; font-size: 1.2rem;">Назад example.ru <span class="health-score" style="font-size: 1.8rem; margin-left: 12px;">Health 76</span></span>
+      <span class="badge" style="background: #d4e2ff;">Google-трек 78</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Google трек -->
+    <div class="card">
+      <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;"><i class="fab fa-google" style="color: #3b7cff;"></i> Google-трек</div>
+      <div class="issue-item"><span class="issue-tag">БЫСТРЫЕ</span> Title слишком длинный <span class="badge">адф. | усил.</span> надо 50–60 символов</div>
+      <div class="issue-item"><span class="issue-tag">БЫСТРЫЕ</span> Het canonical (12 шт) → посмотреть код-факс</div>
+      <div class="issue-item critical"><span class="issue-tag">ДОЛГОЕ</span> Core Web Vitals: LCP 4.2s</div>
+      <div class="issue-item critical"><span class="issue-tag">ДОЛГОЕ</span> Het Schema.org</div>
+      <div class="issue-item"><span class="issue-tag">ДОЛГОЕ</span> Het сигналов доверия: контакты, ИНН, отзывы</div>
+      <div class="issue-item"><span class="issue-tag">ДОЛГОЕ</span> Отказы 78% — поведение = сигнал Яндекс</div>
+    </div>
+
+    <!-- Яндекс трек -->
+    <div class="card">
+      <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 10px;"><i class="fas fa-yandex" style="color: #d94a3d;"></i> Яндекс-трек</div>
+      <div class="issue-item"><span class="issue-tag">БЫСТРЫЕ</span> Нет сигналов доверия <span class="badge">адф. | усил.</span> контакты, ИНН, отзывы</div>
+      <div class="issue-item"><span class="issue-tag">БЫСТРЫЕ</span> Отказы 78% — поведение = сигнал Яндекс</div>
+      <div class="issue-item critical"><span class="issue-tag">ДОЛГОЕ</span> Het Schema.org <span class="badge">адф. | усил.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== СТРАНИЦА 04 — ДЕТАЛИ / ВХОД + КОД ======== -->
+<div id="page-details" class="page">
+  <div class="grid-2">
+    <!-- левая колонка: вход / регистрация -->
+    <div class="card">
+      <div class="logo" style="font-size: 1.4rem; margin-bottom: 12px;"><i class="fas fa-arrow-trend-up"></i> SiteAudit</div>
+      <h2 style="font-weight: 600; margin-bottom: 6px;">Добро пожаловать</h2>
+      <p style="color: #4d6282; margin-bottom: 20px;">вход или регистрация</p>
+      <div style="display: flex; gap: 14px; margin-bottom: 24px;">
+        <span class="btn btn-primary" style="padding: 8px 28px;">Вход</span>
+        <span class="btn btn-outline">Регистрация</span>
+      </div>
+      <div style="margin-bottom: 16px;">
+        <div style="font-weight: 500; margin-bottom: 6px;">Email</div>
+        <div class="btn-outline" style="border-radius: 40px; padding: 12px 20px; color: #7e8fa8;">вписать почту...</div>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <div style="font-weight: 500; margin-bottom: 6px;">Пароль</div>
+        <div class="btn-outline" style="border-radius: 40px; padding: 12px 20px; color: #7e8fa8;">вписать пароль...</div>
+      </div>
+      <span class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px;">Войти</span>
+      <div style="text-align: center; margin: 18px 0;">— или —</div>
+      <div style="display: flex; gap: 12px;">
+        <span class="btn btn-outline" style="flex:1; justify-content: center;"><i class="fab fa-google"></i> Google</span>
+        <span class="btn btn-outline" style="flex:1; justify-content: center;"><i class="fas fa-yandex"></i> Яндекс ID</span>
+      </div>
+    </div>
+
+    <!-- правая колонка: карточка проблемы + код-фис -->
+    <div class="card">
+      <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 6px;">Название проблемы</div>
+      <div class="flex-row" style="margin-bottom: 12px;">
+        <span class="badge" style="background: #d4e2ff;">Google-трек</span>
+        <span class="badge">Эффект</span>
+        <span class="badge">Усилие</span>
+        <span class="badge" style="background: #e4f3e6;">WordPress</span>
+      </div>
+      <p style="color: #2c405e; background: #f2f7ff; padding: 14px; border-radius: 20px;">тут будет описание: что не так и почему важно</p>
+
+      <div style="margin-top: 18px;">
+        <div style="font-weight: 600; margin-bottom: 6px;">Код-фис</div>
+        <div class="code-block">&lt;meta name=&quot;description&quot; content=&quot;...&quot; /&gt;<br>&lt;!-- canonical missing --&gt;<br>&lt;link rel=&quot;canonical&quot; href=&quot;...&quot; /&gt;</div>
+      </div>
+
+      <hr />
+
+      <!-- новая проверка -->
+      <div style="font-weight: 600; margin-bottom: 8px;">Новая проверка · тех. аудит + приоритеты</div>
+      <div class="btn-outline" style="border-radius: 40px; padding: 12px 20px; color: #7e8fa8; margin-bottom: 16px;">URL сайта https://...</div>
+
+      <div style="display: flex; gap: 20px; margin-bottom: 12px;">
+        <span><i class="fab fa-google" style="color: #3b7cff;"></i> Google · контент</span>
+        <span><i class="fas fa-yandex" style="color: #d94a3d;"></i> Яндекс · поведение</span>
+      </div>
+
+      <div style="background: #f6f9fe; border-radius: 20px; padding: 16px;">
+        <div style="font-weight: 500;">ЧТО ПРОВЕРИМ:</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; color: #2f4970;">
+          <span>Title, Description, H1–H6</span>
+          <span>robots.txt, sitemap, HTTPS</span>
+          <span>Core Web Vitals</span>
+          <span>битые ссылки, canonical</span>
+        </div>
+      </div>
+
+      <span class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 20px; padding: 14px;"><i class="fas fa-play"></i> Запустить аудит</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======== ФУТЕР (просто для вида) ======== -->
+<footer style="margin-top: 48px; text-align: center; color: #7f93b0; font-size: 0.8rem; border-top: 1px solid #e3eaf3; padding-top: 24px;">
+  <span onclick="showPage('landing')" style="cursor: pointer;">Лендинг</span> · 
+  <span onclick="showPage('dashboard')" style="cursor: pointer;">Дашборд</span> · 
+  <span onclick="showPage('results')" style="cursor: pointer;">Результаты</span> · 
+  <span onclick="showPage('details')" style="cursor: pointer;">Детали</span>
+  <br>Сырая версия · коммит #1
+</footer>
+
+<script>
+  function showPage(pageId) {
+    // скрыть все страницы
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // показать нужную
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.add('active');
+    // прокрутка вверх
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
