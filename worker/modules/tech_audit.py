@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -40,6 +42,12 @@ def check_canonical(soup):
     return {"name": "canonical", "ok": True, "value": tag["href"].strip()}
 
 
+def check_https(url):
+    if urlparse(url).scheme == "https":
+        return {"name": "https", "ok": True, "value": "Сайт использует HTTPS"}
+    return {"name": "https", "ok": False, "message": "Сайт работает без HTTPS"}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -48,6 +56,7 @@ def run(url):
         check_description(soup),
         check_h1(soup),
         check_canonical(soup),
+        check_https(url),
     ]
     passed = sum(1 for c in checks if c["ok"])
     return {
