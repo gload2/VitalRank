@@ -1,6 +1,14 @@
 # VitalRank Worker
 
-Минимальная рабочая версия. Сейчас умеет: технический аудит страницы по трём проверкам (title, meta description, h1) через Celery-задачу.
+Минимальная рабочая версия. Сейчас умеет: технический аудит страницы через Celery-задачу.
+
+Проверки tech_audit:
+- title — наличие и непустой тег title
+- description — наличие meta description
+- h1 — ровно один заголовок h1
+- canonical — указана canonical-ссылка
+- https — сайт работает по HTTPS
+- images_alt — у всех изображений есть alt-атрибут
 
 В разработке (до начала июля): PageSpeed / Core Web Vitals, проверка битых ссылок, robots.txt и sitemap.xml, раздельные анализаторы под Google и Яндекс, приоритизация рекомендаций.
 
@@ -32,13 +40,16 @@ data = result.get(timeout=20)
 ```json
 {
   "url": "https://example.com",
-  "score": 100,
+  "score": 83,
   "checks": [
     {"name": "title", "ok": true, "value": "..."},
     {"name": "description", "ok": true, "value": "..."},
-    {"name": "h1", "ok": true, "value": "..."}
+    {"name": "h1", "ok": true, "value": "..."},
+    {"name": "canonical", "ok": true, "value": "..."},
+    {"name": "https", "ok": true, "value": "..."},
+    {"name": "images_alt", "ok": false, "message": "..."}
   ]
 }
 ```
 
-`score` — процент пройденных проверок. По мере добавления новых проверок формат `checks` будет расширяться.
+`score` — процент пройденных проверок. Каждая проверка возвращает `value` при успехе или `message` при провале.
