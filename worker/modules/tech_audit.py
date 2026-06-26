@@ -48,6 +48,18 @@ def check_https(url):
     return {"name": "https", "ok": False, "message": "Сайт работает без HTTPS"}
 
 
+def check_images_alt(soup):
+    images = soup.find_all("img")
+    without_alt = [img for img in images if not img.get("alt", "").strip()]
+    if images and without_alt:
+        return {
+            "name": "images_alt",
+            "ok": False,
+            "message": f"{len(without_alt)} из {len(images)} изображений без alt",
+        }
+    return {"name": "images_alt", "ok": True, "value": "У всех изображений есть alt"}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -57,6 +69,7 @@ def run(url):
         check_h1(soup),
         check_canonical(soup),
         check_https(url),
+        check_images_alt(soup),
     ]
     passed = sum(1 for c in checks if c["ok"])
     return {
