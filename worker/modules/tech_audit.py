@@ -33,10 +33,22 @@ def check_h1(soup):
     return {"name": "h1", "ok": True, "value": headings[0].get_text(strip=True)}
 
 
+def check_canonical(soup):
+    tag = soup.find("link", attrs={"rel": "canonical"})
+    if tag is None or not tag.get("href", "").strip():
+        return {"name": "canonical", "ok": False, "message": "Canonical-ссылка не указана"}
+    return {"name": "canonical", "ok": True, "value": tag["href"].strip()}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
-    checks = [check_title(soup), check_description(soup), check_h1(soup)]
+    checks = [
+        check_title(soup),
+        check_description(soup),
+        check_h1(soup),
+        check_canonical(soup),
+    ]
     passed = sum(1 for c in checks if c["ok"])
     return {
         "url": url,
