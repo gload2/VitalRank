@@ -78,6 +78,15 @@ def check_robots(url):
     return {"name": "robots", "ok": True, "value": "robots.txt доступен"}
 
 
+def check_sitemap(url):
+    exists = file_exists(url, "/sitemap.xml")
+    if exists is None:
+        return {"name": "sitemap", "ok": False, "message": "Не удалось проверить sitemap.xml"}
+    if not exists:
+        return {"name": "sitemap", "ok": False, "message": "Файл sitemap.xml не найден"}
+    return {"name": "sitemap", "ok": True, "value": "sitemap.xml доступен"}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -89,6 +98,7 @@ def run(url):
         check_https(url),
         check_images_alt(soup),
         check_robots(url),
+        check_sitemap(url),
     ]
     passed = sum(1 for c in checks if c["ok"])
     return {
