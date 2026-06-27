@@ -1,4 +1,4 @@
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 import requests
 from bs4 import BeautifulSoup
@@ -60,6 +60,24 @@ def check_images_alt(soup):
     return {"name": "images_alt", "ok": True, "value": "У всех изображений есть alt"}
 
 
+def file_exists(url, path):
+    target = urljoin(url, path)
+    try:
+        response = requests.get(target, headers=HEADERS, timeout=10)
+    except requests.RequestException:
+        return None
+    return response.status_code == 200
+
+
+def check_robots(url):
+    exists = file_exists(url, "/robots.txt")
+    if exists is None:
+        return {"name": "robots", "ok": False, "message": "Не удалось проверить robots.txt"}
+    if not exists:
+        return {"name": "robots", "ok": False, "message": "Файл robots.txt не найден"}
+    return {"name": "robots", "ok": True, "value": "robots.txt доступен"}
+
+
 def run(url):
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
@@ -70,6 +88,7 @@ def run(url):
         check_canonical(soup),
         check_https(url),
         check_images_alt(soup),
+        check_robots(url),
     ]
     passed = sum(1 for c in checks if c["ok"])
     return {
