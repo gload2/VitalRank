@@ -56,6 +56,6 @@ Dashboard — это ваш командный центр. Вверху четы
 
 <div align="center">
 
-
+**VitalRank — современный анализ**
 
 </div>
