@@ -1,0 +1,347 @@
+.landing {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.landing__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  border-bottom: 1px solid var(--border);
+}
+
+.landing__brand {
+  color: #3b82f6;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+
+.landing__nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.landing__nav-link {
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.landing__nav-link--hover,
+.landing__nav-link:hover {
+  color: var(--text);
+}
+
+.landing__nav-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.landing__login {
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.landing__login:hover {
+  color: var(--text);
+}
+
+.landing__get-started {
+  background: #3b82f6;
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.landing__get-started:hover {
+  background: #2563eb;
+}
+
+.landing__hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.landing__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  background: #1a1a2e;
+  border: 1px solid rgba(59,130,246,0.27);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #3b82f6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.landing__h1 {
+  font-size: clamp(48px, 8vw, 88px);
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+
+.landing__h1-accent {
+  color: #3b82f6;
+}
+
+.landing__sub {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 48px;
+}
+
+.landing__cta-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.landing__input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 20px;
+  color: var(--text);
+  font-size: 15px;
+  width: 280px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.landing__input:focus {
+  border-color: #3b82f6;
+}
+
+.landing__btn-primary {
+  background: #3b82f6;
+  color: var(--text);
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.landing__btn-primary:hover {
+  background: #2563eb;
+}
+
+.landing__btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.landing__btn-ghost:hover {
+  border-color: var(--muted);
+}
+
+.landing__section {
+  padding: 88px 24px;
+  text-align: center;
+}
+
+.landing__section--alt {
+  background: #0d0d0d;
+  border-top: 1px solid var(--surface-2);
+  border-bottom: 1px solid var(--surface-2);
+}
+
+.landing__section-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+.landing__section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 48px;
+}
+
+.landing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.landing__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 24px;
+  text-align: left;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.landing__card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-3px);
+}
+
+.landing__card-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.landing__card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.landing__card-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.landing__plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.landing__plan {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing__plan--popular {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6, 0 16px 40px rgba(59,130,246,0.12);
+}
+
+.landing__plan-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b82f6;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.landing__plan-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.landing__plan-price {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.landing__plan-period {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dim);
+  margin-left: 4px;
+}
+
+.landing__plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  text-align: left;
+  flex: 1;
+}
+
+.landing__plan-feature {
+  color: #d1d5db;
+  font-size: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.landing__plan-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.landing__plan-btn:hover {
+  border-color: var(--muted);
+}
+
+.landing__plan-btn--primary {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.landing__plan-btn--primary:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.landing__footer {
+  text-align: center;
+  padding: 28px;
+  color: var(--dim);
+  font-size: 13px;
+  border-top: 1px solid var(--surface-2);
+}

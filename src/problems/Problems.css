@@ -1,0 +1,38 @@
+.problems {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg);
+}
+
+.problems__content {
+  padding: 28px;
+}
+
+.problems__title {
+  color: var(--text);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.problems__sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.problems__empty {
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 64px 32px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.problems__site-label {
+  font-size: 11px;
+  color: var(--dim);
+  margin-bottom: 4px;
+  margin-top: 4px;
+}

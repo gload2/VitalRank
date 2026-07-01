@@ -1,0 +1,98 @@
+.site-row {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  gap: 16px;
+}
+
+.site-row--hover {
+  border-color: #3b82f6;
+}
+
+.site-row__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-row__url {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.site-row__date {
+  font-size: 12px;
+  color: #22c55e;
+  margin-top: 2px;
+}
+
+.site-row__scores {
+  display: flex;
+  gap: 20px;
+}
+
+.site-row__score {
+  text-align: center;
+}
+
+.site-row__score-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.site-row__score-val {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.site-row__btn-open {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: border-color 0.15s;
+  white-space: nowrap;
+}
+
+.site-row__btn-open:hover {
+  border-color: var(--muted);
+}
+
+.site-row__btn-delete {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--dim);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.site-row__btn-delete:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.site-row__btn-delete--confirm {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+}
